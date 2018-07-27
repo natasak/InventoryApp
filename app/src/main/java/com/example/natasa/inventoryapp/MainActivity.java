@@ -6,10 +6,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.example.natasa.inventoryapp.data.BookDbHelper;
+
 /**
  * Displays list of books that were entered and stored in the app
  */
 public class MainActivity extends AppCompatActivity {
+
+    // Database helper that will provide us access to the database
+    private BookDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
 
+
+    }
 }
