@@ -5,9 +5,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <!-- Primary color for the editor -->
-    <color name="editorColorPrimary">#2D3640</color>
+    <color name="editorColorPrimary">#25307b</color>
 
     <!-- Primary dark color for the editor -->
-    <color name="editorColorPrimaryDark">#394450</color>
+    <color name="editorColorPrimaryDark">#1c255e</color>
 
 </resources>
