@@ -74,8 +74,8 @@ public class EditorActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
 
-        // Insert a new row for book in database, returning the ID of that new row
-        long newRowId = db.insert(BookEntry.TABLE_NAME, null, values);
+        // Insert a new row for pet in database, returning the ID of that new row
+        db.insert(BookEntry.TABLE_NAME, null, values);
     }
 
     @Override

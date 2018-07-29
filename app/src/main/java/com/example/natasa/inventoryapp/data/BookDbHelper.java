@@ -49,6 +49,7 @@ public class BookDbHelper extends SQLiteOpenHelper {
 
     /**
      * This is called when the database needs to be upgraded.
+     * Example of implementation: https://thebhwgroup.com/blog/how-android-sqlite-onupgrade
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
