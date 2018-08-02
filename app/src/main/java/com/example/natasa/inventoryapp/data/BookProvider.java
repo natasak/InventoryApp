@@ -104,6 +104,35 @@ public class BookProvider extends ContentProvider {
      * for that specific row in the database.
      */
     private Uri insertBook(Uri uri, ContentValues values) {
+
+        // Check that the name is not null
+        String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
+        if (name == null) {
+            throw new IllegalArgumentException("Book requires a name.");
+        }
+
+        // Check that the price is greater than or equal to 0
+        // Used Float (wrapper class for float) ao it can be checked for null
+        Float floatPrice = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
+        if (floatPrice != null && floatPrice < 0) {
+            throw new IllegalArgumentException("Book requires valid price.");
+        }
+
+        // Check that the quantity is greater than or equal to 0
+        Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
+        if (quantity != null && quantity < 0) {
+            throw new IllegalArgumentException("Book requires valid quantity.");
+        }
+
+        // Check that the supplier name is not null
+        String supplierName = values.getAsString(BookEntry.COLUMN_SUPPLIER_NAME);
+        if (supplierName == null) {
+            throw new IllegalArgumentException("Supplier requires a name.");
+        }
+
+        // No need to check the breed, any value is valid
+
+
         // Get writeable databaase
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
