@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
      * the books database.
      */
     private void displayDatabaseInfo() {
-        // Create and/or open database to read from it
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         // Projection
         String[] projection = {
@@ -64,12 +62,10 @@ public class MainActivity extends AppCompatActivity {
                 BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER
         };
 
-        // Call to the query method
-        Cursor cursor = db.query(
-                BookEntry.TABLE_NAME,
-                projection,
-                null,
-                null,
+        // Perform a query on the provider using ContentResolver.
+        Cursor cursor = getContentResolver().query(
+                BookEntry.CONTENT_URI,    // The content URI
+                projection,               // Columns to return for each row
                 null,
                 null,
                 null);
