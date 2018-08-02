@@ -1,12 +1,14 @@
 package com.example.natasa.inventoryapp.data;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
 
 public class BookProvider extends ContentProvider {
 
@@ -43,9 +45,40 @@ public class BookProvider extends ContentProvider {
         return true;
     }
 
+    /**
+     * Perform the query for the given URI. Use the given projection, selection, selection arguments, and sort order.
+     */
     @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
-        return null;
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+
+        // Get readable database
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+
+        // This cursor will hold the result of the query
+        Cursor cursor;
+
+        // Figure out if the URI matcher can match the URI to a specific code
+        int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                // For the BOOKS code, query the books table directly with the given arguments.
+                // The cursor could contain multiple rows of the books table.
+                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            case BOOK_ID:
+                // For the BOOK_ID code, extract out the ID from the URI.
+                // For one "?" in the selection, one String in the selection arguments' String array.
+                selection = BookEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+
+                // Query on the books table, which returns Cursor containing _id row of the table
+                cursor = database.query(BookEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                break;
+            default:
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
+        }
+
+        return cursor;
     }
 
     @Override
