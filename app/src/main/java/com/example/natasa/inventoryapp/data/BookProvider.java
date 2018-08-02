@@ -252,8 +252,20 @@ public class BookProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Returns the MIME type of data for the content URI.
+     */
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return BookEntry.CONTENT_LIST_TYPE;
+            case BOOK_ID:
+                return BookEntry.CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
+        }
+
     }
 }
