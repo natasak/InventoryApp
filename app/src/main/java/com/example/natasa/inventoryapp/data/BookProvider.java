@@ -130,7 +130,7 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Supplier requires a name.");
         }
 
-        // No need to check the breed, any value is valid
+        // No need to check the supplier phone number, any value is valid
 
 
         // Get writeable databaase
@@ -150,6 +150,84 @@ public class BookProvider extends ContentProvider {
         return ContentUris.withAppendedId(uri, id);
     }
 
+    /**
+     * Updates the data at the given selection and selection arguments, with the new ContentValues.
+     */
+    @Override
+    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case BOOKS:
+                return updateBook(uri, contentValues, selection, selectionArgs);
+            case BOOK_ID:
+                // For the BOOK_ID code, extract out the ID from the URI.
+                // For one "?" in the selection, one String in the selection arguments' String array.
+                selection = BookEntry._ID + "=?";
+                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
+                return updateBook(uri, contentValues, selection, selectionArgs);
+            default:
+                throw new IllegalArgumentException("Update is not supported for " + uri);
+        }
+    }
+
+    /**
+     * Update books in the database with the given content values. Apply the changes to the rows
+     * specified in the selection and selection arguments.
+     * Return the number of rows that were successfully updated.
+     */
+    private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+
+        // If BookEntry.COLUMN_PRODUCT_NAME key is present,
+        // check that the name value is not null
+        if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)) {
+            String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
+            if (name == null) {
+                throw new IllegalArgumentException("Book requires a name.");
+            }
+        }
+
+        // If BookEntry.COLUMN_PRODUCT_PRICE key is present,
+        // check that the price value is valid
+        if (values.containsKey(BookEntry.COLUMN_PRODUCT_PRICE)) {
+            Float floatPrice = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
+            // Check that price is greater than or equal to 0
+            if (floatPrice != null && floatPrice < 0) {
+                throw new IllegalArgumentException("Book requires valid price.");
+            }
+        }
+
+        // If BookEntry.COLUMN_QUANTITY key is present,
+        // check that the quantity value is greater than or equal to 0
+        if (values.containsKey(BookEntry.COLUMN_QUANTITY)) {
+            Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
+            if (quantity != null && quantity < 0) {
+                throw new IllegalArgumentException("Book requires valid quantity.");
+            }
+        }
+
+        // If BookEntry.COLUMN_SUPPLIER_NAME key is present,
+        // check that the supplier name is not null
+        if (values.containsKey(BookEntry.COLUMN_SUPPLIER_NAME)) {
+            String supplierName = values.getAsString(BookEntry.COLUMN_SUPPLIER_NAME);
+            if (supplierName == null) {
+                throw new IllegalArgumentException("Supplier requires a name.");
+            }
+        }
+
+        // No need to check the supplier phone number, any value is valid
+
+        // If there are no values to update, then don't try to update the database
+        if (values.size() == 0) {
+            return 0;
+        }
+
+        // Otherwise, get writeable database to update the data
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+
+        // Return the number of rows updated
+        return database.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
+    }
+
     @Override
     public String getType(Uri uri) {
         return null;
@@ -162,8 +240,5 @@ public class BookProvider extends ContentProvider {
         return 0;
     }
 
-    @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
-    }
+
 }
