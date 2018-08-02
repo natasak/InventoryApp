@@ -2,7 +2,6 @@ package com.example.natasa.inventoryapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +9,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
-import com.example.natasa.inventoryapp.data.BookDbHelper;
 
 /**
  * Displays list of books that were entered and stored in the app
  */
 public class MainActivity extends AppCompatActivity {
-
-    // Database helper that will provide us access to the database
-    private BookDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        // To access our database, we instantiate our subclass of SQLiteOpenHelper
-        // and pass the context, which is the current activity
-        dbHelper = new BookDbHelper(this);
     }
 
     @Override

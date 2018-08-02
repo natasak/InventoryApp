@@ -1,16 +1,16 @@
 package com.example.natasa.inventoryapp;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
-import com.example.natasa.inventoryapp.data.BookDbHelper;
 
 /**
  * Allows user to create a new book entry or edit an existing one.
@@ -59,12 +59,6 @@ public class EditorActivity extends AppCompatActivity {
         String supplierNameString = supplierNameEditText.getText().toString().trim();
         String supplierPhoneNumberString = supplierPhoneNumberEditText.getText().toString().trim();
 
-        // Create database helper
-        BookDbHelper dbHelper = new BookDbHelper(this);
-
-        // Gets the databse in write mode
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         // Create a ContentValues object where column names are keys,
         // and books attributes from the editor are values.
         ContentValues values = new ContentValues();
@@ -74,8 +68,17 @@ public class EditorActivity extends AppCompatActivity {
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
 
-        // Insert a new row for pet in database, returning the ID of that new row
-        db.insert(BookEntry.TABLE_NAME, null, values);
+        // Insert a new book into the provider, returning the content URI for the new book
+        Uri newUri = getContentResolver().insert(BookEntry.CONTENT_URI, values);
+
+        // Show a toast message depending on whether or not the insertion was successful
+        if (newUri == null) {
+            // If the new content URI is null, then there was an error with insertion
+            Toast.makeText(this, getString(R.string.editor_insert_book_failed), Toast.LENGTH_SHORT).show();
+        } else {
+            // Otherwisem the insertion was successful and we can display a toast
+            Toast.makeText(this, getString(R.string.editor_insert_book_successful), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
