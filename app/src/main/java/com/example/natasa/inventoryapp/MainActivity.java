@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
@@ -61,48 +62,14 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null);
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_book);
+        // Find the ListView which will be populated with the book data
+        ListView bookListView = (ListView) findViewById(R.id.list);
 
-        try {
-             // Create a header in TextView that looks like this
-             // _id - name - price - quantity - supplier name - supplier phone number
-            displayView.setText("The books table contains " + cursor.getCount() + " books.\n\n");
-            displayView.append(BookEntry._ID + " - "
-                    + BookEntry.COLUMN_PRODUCT_NAME + " - "
-                    + BookEntry.COLUMN_PRODUCT_PRICE + " - "
-                    + BookEntry.COLUMN_QUANTITY + " - "
-                    + BookEntry.COLUMN_SUPPLIER_NAME + " - "
-                    + BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER + "\n");
+        // Setup an Adapter to create a list for each row of book data in the Cursor
+        BookCursorAdapter adapter = new BookCursorAdapter(this, cursor);
 
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(BookEntry._ID);
-            int nameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_NAME);
-            int priceColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_PRODUCT_PRICE);
-            int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_QUANTITY);
-            int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_NAME);
-            int supplierPhoneNumberColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
-
-            // Iterate through the rows in the cursor and
-            // display values from each column of the current row in the cursor
-            while (cursor.moveToNext()) {
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentName = cursor.getString(nameColumnIndex);
-                float currentPrice = cursor.getFloat(priceColumnIndex);
-                int currentQuantity = cursor.getInt(quantityColumnIndex);
-                String currentSupplierName = cursor.getString(supplierNameColumnIndex);
-                String currentSupplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
-
-                displayView.append(("\n" + currentID + " - " +
-                        currentName + " - " +
-                        currentPrice + " - " +
-                        currentQuantity + " - " +
-                        currentSupplierName + " - " +
-                        currentSupplierPhoneNumber));
-            }
-        } finally {
-            // Close the cursor
-            cursor.close();
-        }
+        // Attach the adapter to the ListView
+        bookListView.setAdapter(adapter);
     }
 
 

@@ -4,10 +4,20 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- Background color of buttons in the app -->
+    <color name="colorButtonNormal">#536dfe</color>
+    <color name="colorButtonWhite">#ffffff</color>
+
     <!-- Primary color for the editor -->
     <color name="editorColorPrimary">#25307b</color>
 
     <!-- Primary dark color for the editor -->
     <color name="editorColorPrimaryDark">#1c255e</color>
+
+    <!-- Text color for Book Name -->
+    <color name="textColorName">#283593</color>
+
+    <!-- Text color for Book Price and Quantity -->
+    <color name="textColorPrice">#757575</color>
 
 </resources>

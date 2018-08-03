@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout for a single list item in the list of books -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/size16dp">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/textColorName"
+        tools:text="@string/text_book_name" />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_below="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/textColorPrice"
+        tools:text="@string/text_book_price"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/price"
+        android:layout_below="@+id/name"
+        android:paddingLeft="@dimen/size8dp"
+        android:text="@string/text_book_euro"
+        android:textAllCaps="true"/>
+
+    <TextView
+        android:id="@+id/quantityText"
+        android:layout_below="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="@dimen/size8dp"
+        android:text="@string/text_book_quantity" />
+
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/quantityText"
+        android:layout_below="@+id/price"
+        android:fontFamily="sans-serif"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/textColorPrice"
+        tools:text="@string/text_book_quantity_number"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/buttonSale"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="@string/button_text_sale"
+        android:textColor="@color/colorButtonWhite"  />
+
+</RelativeLayout>

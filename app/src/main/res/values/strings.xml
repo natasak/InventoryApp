@@ -40,7 +40,19 @@
     <!-- Text hint for supplier phone number field in the editor -->
     <string name="hint_supplier_phone_number">Phone Number</string>
 
+    <!-- TextView for Book Name in ListView -->
+    <string name="text_book_name">Book Name</string>
 
+    <!-- TextView for Book price in ListView -->
+    <string name="text_book_price">20</string>
+    <string name="text_book_euro">euro</string>
+
+    <!-- TextView for Book Quantity in ListView -->
+    <string name="text_book_quantity">Quantity:</string>
+    <string name="text_book_quantity_number">5</string>
+
+    <!-- Text for Button -->
+    <string name="button_text_sale">sale</string>
 
 
 </resources>
