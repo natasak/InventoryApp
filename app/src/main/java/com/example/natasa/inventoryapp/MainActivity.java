@@ -1,14 +1,17 @@
 package com.example.natasa.inventoryapp;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
@@ -51,6 +54,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // There is no book data yet (until the laoder finishes) so pass in null for the Cursor
         mCursorAdapter = new BookCursorAdapter(this, null);
         bookListView.setAdapter(mCursorAdapter);
+
+        // Setup the item click listener
+        bookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                //Create new intent to go to EditorActivity
+                Intent intent = new Intent(MainActivity.this, EditorActivity.class);
+
+                // Form the content URI that represents the specific book that was clicked on,
+                // by appending the "id" (passed as input to this method) onto the
+                // BookEntry.CONTENT_URI.
+                Uri currentBookUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, id);
+
+                // Set the URI on the data field of the intent
+                intent.setData(currentBookUri);
+
+                // Launch the EditorActivity to display the data for the current book
+                startActivity(intent);
+
+            }
+        });
 
         // kick off the loader
         getLoaderManager().initLoader(BOOK_LOADER, null, this);
