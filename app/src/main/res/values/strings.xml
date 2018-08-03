@@ -54,5 +54,10 @@
     <!-- Text for Button -->
     <string name="button_text_sale">sale</string>
 
+    <!-- Title text for the empty view -->
+    <string name="empty_view_title_text">It\'s a bit lonely here...</string>
+
+    <!-- Subtitle text for the empty view that prompts the user to add a book -->
+    <string name="empty_view_subtitle_text">Get started by adding a book</string>
 
 </resources>

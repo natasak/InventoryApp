@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
 
@@ -30,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Find the ListView which will be populated with the book data
+        ListView bookListView = (ListView) findViewById(R.id.list);
+
+        // Find and set empty view on ListView, when the list has 0 items
+        View emptyView = findViewById(R.id.empty_view);
+        bookListView.setEmptyView(emptyView);
     }
 
     @Override
