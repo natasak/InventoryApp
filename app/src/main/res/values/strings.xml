@@ -16,8 +16,15 @@
     <!-- Toast message in editor when new book has been successfully inserted -->
     <string name="editor_insert_book_successful">Book saved</string>
 
+    <!-- Toast message in editor when current book has failed to be updated -->
+    <string name="editor_update_book_failed">Error with updating book</string>
+
+    <!-- Toast message in editor when current book has been successfully updated -->
+    <string name="editor_update_book_successful">Book updated</string>
+
     <!-- Toast message in editor when new book has failed to be inserted -->
     <string name="editor_insert_book_failed">Error with saving book</string>
+
 
     <!-- Label for overview category of attributes in the editor -->
     <string name="category_overview">Overview</string>
