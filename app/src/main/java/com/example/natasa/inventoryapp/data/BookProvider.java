@@ -7,6 +7,7 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
@@ -112,12 +113,12 @@ public class BookProvider extends ContentProvider {
 
         // Check that the name is not null
         String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
+        if (TextUtils.isEmpty(name)) {
             throw new IllegalArgumentException("Book requires a name.");
         }
 
         // Check that the price is greater than or equal to 0
-        // Used Float (wrapper class for float) ao it can be checked for null
+        // Used Float (wrapper class for float) so it can be checked for null
         Float floatPrice = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
         if (floatPrice != null && floatPrice < 0) {
             throw new IllegalArgumentException("Book requires valid price.");
@@ -131,7 +132,7 @@ public class BookProvider extends ContentProvider {
 
         // Check that the supplier name is not null
         String supplierName = values.getAsString(BookEntry.COLUMN_SUPPLIER_NAME);
-        if (supplierName == null) {
+        if (TextUtils.isEmpty(supplierName)) {
             throw new IllegalArgumentException("Supplier requires a name.");
         }
 
