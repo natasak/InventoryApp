@@ -74,33 +74,33 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/size4dp">
 
+            <Button
+                android:id="@+id/buttonMinus"
+                android:layout_width="@dimen/size48dp"
+                android:layout_height="@dimen/size48dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:text="@string/button_text_minus"
+                android:textSize="@dimen/text_size24sp"/>
 
             <!-- Quantity field -->
             <EditText
                 android:id="@+id/edit_quantity"
                 style="@style/EditorFieldStyle"
                 android:hint="@string/hint_quantity"
+                android:gravity="center"
                 android:paddingBottom="@dimen/size28dp"
                 android:inputType="number" />
-
-            <Button
-                android:id="@+id/buttonMinus"
-                android:layout_width="@dimen/size48dp"
-                android:layout_height="@dimen/size48dp"
-                android:layout_toLeftOf="@id/buttonPlus"
-                android:text="@string/button_text_minus"
-                android:textSize="@dimen/text_size24sp"/>
 
             <Button
                 android:id="@+id/buttonPlus"
                 android:layout_width="@dimen/size48dp"
                 android:layout_height="@dimen/size48dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/size8dp"
                 android:text="@string/button_text_plus"
                 android:textSize="@dimen/text_size24sp"/>
         </RelativeLayout>
-
     </LinearLayout>
 
     <!-- Supplier category -->
@@ -148,6 +148,5 @@
                 android:background="@color/colorButtonNormal"/>
 
         </LinearLayout>
-
     </LinearLayout>
 </LinearLayout>

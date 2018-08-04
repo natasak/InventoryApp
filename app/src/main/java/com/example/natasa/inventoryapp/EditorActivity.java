@@ -20,7 +20,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
@@ -30,7 +29,7 @@ import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
  */
 public class EditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // Identifier for the book data laoder
+    // Identifier for the book data loader
     private static final int EXISTING_BOOK_LOADER = 0;
 
     // Content URI for the existing book (null if it's a new book)
@@ -53,6 +52,12 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     /** Boolean flag that keeps track of whether the book has been edited (true) or not (false) */
     private boolean mBookHasChanged = false;
+
+    /** Row ID */
+    private int rowIndex;
+
+    /** Quantity */
+    private int quantity;
 
     /** Supplier phone number */
     private String supplierPhoneNumber;
@@ -79,7 +84,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         Intent intent = getIntent();
         mCurrentBookUri = intent.getData();
 
-        // If the intent doesn't contain a book content URI, then we are crating a new book
+        // If the intent doesn't contain a book content URI, then we are creating a new book
         if (mCurrentBookUri == null) {
             //This is new book, so change the app bar to say "Add a book"
             setTitle(getString(R.string.editor_activity_title_new_product));
@@ -87,9 +92,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             invalidateOptionsMenu();
 
-            // Hide the button ORDER when inserting new book
-            View b = findViewById(R.id.buttonOrder);
-            b.setVisibility(View.GONE);
+            // Hide the buttons +, - and ORDER when inserting new book
+            View bOrder = findViewById(R.id.buttonOrder);
+            View bPlus = findViewById(R.id.buttonPlus);
+            View bMinus = findViewById(R.id.buttonMinus);
+
+            bOrder.setVisibility(View.GONE);
+            bPlus.setVisibility(View.GONE);
+            bMinus.setVisibility(View.GONE);
 
         } else {
             // Otherwise this is an existing book, so change app bar to say "Edit book"
@@ -116,12 +126,51 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         supplierNameEditText.setOnTouchListener(mTouchListener);
         supplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
 
-
         /**
          * BUTTONS
          */
 
+        // Find relevant buttons
+        Button buttonMinus = findViewById(R.id.buttonMinus);
+        Button buttonPlus = findViewById(R.id.buttonPlus);
         Button buttonOrder = findViewById(R.id.buttonOrder);
+
+        // When MINUS button is clicked, decrease quantity by 1 (quantity >= 0) and update database
+        buttonMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (quantity > 0) {
+                    quantity = quantity -1;
+
+                    // Getting the URI with appended ID for row
+                    Uri quantityUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, rowIndex);
+
+                    // Update the values
+                    ContentValues values = new ContentValues();
+                    values.put(BookEntry.COLUMN_QUANTITY, quantity);
+                    getContentResolver().update(quantityUri, values, null, null);
+                } else {
+                    // Otherwise display a toast that the minimum quantity is 0
+                    Toast.makeText(EditorActivity.this, R.string.button_minus_zero, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // When PLUS button is clicked, increase quantity by 1 and update database
+        buttonPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                quantity = quantity +1;
+
+                // Getting the URI with appended ID for row
+                Uri quantityUri = ContentUris.withAppendedId(BookEntry.CONTENT_URI, rowIndex);
+
+                // Update the values
+                ContentValues values = new ContentValues();
+                values.put(BookEntry.COLUMN_QUANTITY, quantity);
+                getContentResolver().update(quantityUri, values, null, null);
+            }
+        });
 
         // When button ORDER is clicked, open an intent for phone app
         buttonOrder.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +180,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 startActivity(phoneIntent);
             }
         });
-
     }
 
     /**
@@ -160,7 +208,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         // Create a ContentValues object where column names are keys,
         // and books attributes from the editor are values.
         ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
 
         // If the name is not provided by the user, display a toast and go back to MainActivity
         if (TextUtils.isEmpty(nameString)) {
@@ -168,6 +215,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
 
         // If the price is not provided by the user, display a toast and go back to MainActivity
         float price;
@@ -191,23 +239,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
         values.put(BookEntry.COLUMN_QUANTITY, quantity);
 
-        values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
-
         // If the supplier name is not provided by the user, display a toast and go back to MainActivity
         if (TextUtils.isEmpty(supplierNameString)) {
             Toast.makeText(EditorActivity.this, R.string.editor_insert_supplier_name_failed,
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
 
-        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
-        
         // If the supplier phone number is not provided by the user, display a toast and go back to MainActivity
         if (TextUtils.isEmpty(supplierPhoneNumberString)) {
             Toast.makeText(EditorActivity.this, R.string.editor_insert_supplier_phone_number_failed,
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
 
         // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
         if (mCurrentBookUri == null) {
@@ -268,7 +314,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
@@ -277,10 +322,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_save:
                 // Save book to database
                 saveBook();
-
                 // Exit activity
                 finish();
-
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:
@@ -302,7 +345,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                 DialogInterface.OnClickListener discardButtonClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // user clicked "Discard" button, navigate to pareant activity
+                        // user clicked "Discard" button, navigate to parent activity
                         NavUtils.navigateUpFromSameTask(EditorActivity.this);
                     }
                 };
@@ -425,6 +468,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
     /**
      * LOADER
      */
+
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         // Since the editor shows all book attributes, define a projection that contains
@@ -462,13 +506,15 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             int quantityColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_QUANTITY);
             int supplierNameColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_NAME);
             int supplierPhoneNumberColumnIndex = cursor.getColumnIndex(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            int rowColumnIndex = cursor.getColumnIndex(BookEntry._ID);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             Float price = cursor.getFloat(priceColumnIndex);
-            int quantity = cursor.getInt(quantityColumnIndex);
+            quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
             supplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
+            rowIndex = cursor.getInt(rowColumnIndex);
 
             // Update the views on the screen with the values from the database
             nameEditText.setText(name);
@@ -476,9 +522,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             quantityEditText.setText(Integer.toString(quantity));
             supplierNameEditText.setText(supplierName);
             supplierPhoneNumberEditText.setText(supplierPhoneNumber);
-
         }
-
     }
 
     @Override
@@ -489,6 +533,5 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         quantityEditText.setText("");
         supplierNameEditText.setText("");
         supplierPhoneNumberEditText.setText("");
-
     }
 }

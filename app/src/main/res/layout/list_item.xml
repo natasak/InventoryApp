@@ -64,5 +64,4 @@
         android:text="@string/button_text_sale"
         android:textColor="@color/colorButtonWhite"
         android:focusable="false" />
-
 </RelativeLayout>

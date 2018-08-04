@@ -19,5 +19,4 @@
 
     <!-- Text color for Book Price and Quantity -->
     <color name="textColorPrice">#757575</color>
-
 </resources>

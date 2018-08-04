@@ -17,5 +17,4 @@
 
     <!-- Text sizes for buttons + and - -->
     <dimen name="text_size24sp">24sp</dimen>
-
 </resources>

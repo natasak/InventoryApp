@@ -125,5 +125,4 @@
 
     <!-- Toast message in EditorActivity when user wants to decrease quantity below 0, by clicking minus button -->
     <string name="button_minus_zero">0 is the minimal quantity!</string>
-
 </resources>

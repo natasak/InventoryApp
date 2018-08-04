@@ -3,9 +3,7 @@ package com.example.natasa.inventoryapp;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
-import com.example.natasa.inventoryapp.data.BookDbHelper;
 
 /**
  * Adapter for a list view that uses Cursor of book data as its data source.
@@ -85,7 +82,7 @@ public class BookCursorAdapter extends CursorAdapter {
         buttonSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // If there are books in stock, decrease quantity by 1 when clicking the button
+                // If there are books in stock, decrease quantity by 1
                 if (bookQuantity > 0) {
                     int newQuantity = bookQuantity -1;
 
@@ -102,6 +99,5 @@ public class BookCursorAdapter extends CursorAdapter {
                 }
             }
         });
-
     }
 }

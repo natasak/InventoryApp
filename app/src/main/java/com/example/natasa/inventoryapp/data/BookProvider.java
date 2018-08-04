@@ -135,10 +135,13 @@ public class BookProvider extends ContentProvider {
             throw new IllegalArgumentException("Supplier requires a name.");
         }
 
-        // No need to check the supplier phone number, any value is valid
+        // Check that the supplier phone number is not null
+        String supplierPhoneNumber = values.getAsString(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+        if (supplierPhoneNumber == null) {
+            throw new IllegalArgumentException("Supplier requires a phone number.");
+        }
 
-
-        // Get writeable databaase
+        // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Insert a new book into books database with given ContentValues
@@ -185,8 +188,7 @@ public class BookProvider extends ContentProvider {
      */
     private int updateBook(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
-        // If BookEntry.COLUMN_PRODUCT_NAME key is present,
-        // check that the name value is not null
+        // If BookEntry.COLUMN_PRODUCT_NAME key is present, check that the name value is not null
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
@@ -194,8 +196,7 @@ public class BookProvider extends ContentProvider {
             }
         }
 
-        // If BookEntry.COLUMN_PRODUCT_PRICE key is present,
-        // check that the price value is valid
+        // If BookEntry.COLUMN_PRODUCT_PRICE key is present, check that the price value is valid
         if (values.containsKey(BookEntry.COLUMN_PRODUCT_PRICE)) {
             Float floatPrice = values.getAsFloat(BookEntry.COLUMN_PRODUCT_PRICE);
             // Check that price is greater than or equal to 0
@@ -204,8 +205,7 @@ public class BookProvider extends ContentProvider {
             }
         }
 
-        // If BookEntry.COLUMN_QUANTITY key is present,
-        // check that the quantity value is greater than or equal to 0
+        // If BookEntry.COLUMN_QUANTITY key is present, check that the quantity value is valid
         if (values.containsKey(BookEntry.COLUMN_QUANTITY)) {
             Integer quantity = values.getAsInteger(BookEntry.COLUMN_QUANTITY);
             if (quantity != null && quantity < 0) {
@@ -213,8 +213,7 @@ public class BookProvider extends ContentProvider {
             }
         }
 
-        // If BookEntry.COLUMN_SUPPLIER_NAME key is present,
-        // check that the supplier name is not null
+        // If BookEntry.COLUMN_SUPPLIER_NAME key is present, check that the supplier name is not null
         if (values.containsKey(BookEntry.COLUMN_SUPPLIER_NAME)) {
             String supplierName = values.getAsString(BookEntry.COLUMN_SUPPLIER_NAME);
             if (supplierName == null) {
@@ -222,7 +221,13 @@ public class BookProvider extends ContentProvider {
             }
         }
 
-        // No need to check the supplier phone number, any value is valid
+        // If BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER key is present, check that the supplier phone number is not null
+        if(values.containsKey(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER)) {
+            String supplierPhoneNumber = values.getAsString(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER);
+            if (supplierPhoneNumber == null) {
+                throw new IllegalArgumentException("Supplier requires a phone number.");
+            }
+        }
 
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
@@ -264,7 +269,7 @@ public class BookProvider extends ContentProvider {
                 rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case BOOK_ID:
-                // Delete a singler ow given by the ID in the URI
+                // Delete a single row given by the ID in the URI
                 selection = BookEntry._ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(BookEntry.TABLE_NAME, selection, selectionArgs);
@@ -297,6 +302,5 @@ public class BookProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri + " with match " + match);
         }
-
     }
 }

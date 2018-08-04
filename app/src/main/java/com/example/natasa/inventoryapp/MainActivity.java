@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View emptyView = findViewById(R.id.empty_view);
         bookListView.setEmptyView(emptyView);
 
-
         // Setup an Adapter to create a list for each row of book data in the Cursor
         // There is no book data yet (until the laoder finishes) so pass in null for the Cursor
         mCursorAdapter = new BookCursorAdapter(this, null);
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 // Launch the EditorActivity to display the data for the current book
                 startActivity(intent);
-
             }
         });
 
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 BookEntry.COLUMN_QUANTITY
         };
 
-        // Loader will execute ContentProvider's query method on a bacground thread
+        // Loader will execute ContentProvider's query method on a background thread
         return new CursorLoader(this,
                 BookEntry.CONTENT_URI,    // The content URI
                 projection,               // Columns to return for each row
@@ -110,14 +108,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         // Update BookCursorAdapter with this new cursor containing updated book data
         mCursorAdapter.swapCursor(data);
-
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         // Callback called when the data need to be deleted
         mCursorAdapter.swapCursor(null);
-
     }
-
 }
