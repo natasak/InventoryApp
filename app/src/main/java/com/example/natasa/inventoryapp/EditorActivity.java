@@ -2,6 +2,7 @@ package com.example.natasa.inventoryapp;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -17,7 +18,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.natasa.inventoryapp.data.BookContract.BookEntry;
@@ -50,6 +53,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
 
     /** Boolean flag that keeps track of whether the book has been edited (true) or not (false) */
     private boolean mBookHasChanged = false;
+
+    /** Supplier phone number */
+    private String supplierPhoneNumber;
 
     /**
      * OnTouchListener that listens for any user touches on a View, implying that they are modifying
@@ -109,6 +115,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         quantityEditText.setOnTouchListener(mTouchListener);
         supplierNameEditText.setOnTouchListener(mTouchListener);
         supplierPhoneNumberEditText.setOnTouchListener(mTouchListener);
+
+
+        /**
+         * BUTTONS
+         */
+
+        Button buttonOrder = findViewById(R.id.buttonOrder);
+
+        // When button ORDER is clicked, open an intent for phone app
+        buttonOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", supplierPhoneNumber, null));
+                startActivity(phoneIntent);
+            }
+        });
+
     }
 
     /**
@@ -121,7 +144,8 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         String priceString = priceEditText.getText().toString().trim();
         String quantityString = quantityEditText.getText().toString().trim();
         String supplierNameString = supplierNameEditText.getText().toString().trim();
-        String supplierPhoneNumberString = supplierPhoneNumberEditText.getText().toString().trim();
+        final String supplierPhoneNumberString = supplierPhoneNumberEditText.getText().toString().trim();
+
 
         // Check if this is supposed to be a new book
         // and check if all the fields in the editor are blank
@@ -177,6 +201,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
+        
+        // If the supplier phone number is not provided by the user, display a toast and go back to MainActivity
+        if (TextUtils.isEmpty(supplierPhoneNumberString)) {
+            Toast.makeText(EditorActivity.this, R.string.editor_insert_supplier_phone_number_failed,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
         if (mCurrentBookUri == null) {
@@ -437,7 +468,7 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             Float price = cursor.getFloat(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String supplierName = cursor.getString(supplierNameColumnIndex);
-            String supplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
+            supplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
 
             // Update the views on the screen with the values from the database
             nameEditText.setText(name);

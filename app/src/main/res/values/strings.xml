@@ -31,6 +31,9 @@
     <!-- Toast message in editor when the user didn't insert supplier name -->
     <string name="editor_insert_supplier_name_failed">You need to insert supplier name!</string>
 
+    <!-- Toast message in editor when the user didn't insert supplier phone number -->
+    <string name="editor_insert_supplier_phone_number_failed">You need to insert supplier phone number!</string>
+
     <!-- Toast message in editor when current book has failed to be updated -->
     <string name="editor_update_book_failed">Error with updating book</string>
 
@@ -119,5 +122,8 @@
 
     <!-- Toast message in MainActivity when user wants to decrease quantity below 0 -->
     <string name="out_of_stock">Out of stock!</string>
+
+    <!-- Toast message in EditorActivity when user wants to decrease quantity below 0, by clicking minus button -->
+    <string name="button_minus_zero">0 is the minimal quantity!</string>
 
 </resources>
