@@ -105,4 +105,7 @@
     <!-- Subtitle text for the empty view that prompts the user to add a book -->
     <string name="empty_view_subtitle_text">Get started by adding a book</string>
 
+    <!-- Toast message in MainActivity when user wants to decrease quantity below 0 -->
+    <string name="out_of_stock">Out of stock!</string>
+
 </resources>
