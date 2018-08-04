@@ -19,6 +19,9 @@
     <!-- Toast message in editor when new book has failed to be inserted -->
     <string name="editor_insert_book_failed">Error with saving book</string>
 
+    <!-- Toast message in editor when the user didn't insert a product name -->
+    <string name="editor_insert_book_name_failed">You need to insert a product name!</string>
+
     <!-- Toast message in editor when current book has failed to be updated -->
     <string name="editor_update_book_failed">Error with updating book</string>
 

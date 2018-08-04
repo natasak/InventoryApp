@@ -134,6 +134,13 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_PRODUCT_NAME, nameString);
 
+        // If the name is not provided by the user, display a toast and go back to MainActivity
+        if (TextUtils.isEmpty(nameString)) {
+            Toast.makeText(EditorActivity.this, R.string.editor_insert_book_name_failed,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // If the price is not provided by the user, don't try to parse the String into
         // a float value. Use 0 by default.
         float price = Float.valueOf(0);

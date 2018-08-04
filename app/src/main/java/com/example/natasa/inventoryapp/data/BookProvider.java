@@ -113,7 +113,7 @@ public class BookProvider extends ContentProvider {
 
         // Check that the name is not null
         String name = values.getAsString(BookEntry.COLUMN_PRODUCT_NAME);
-        if (TextUtils.isEmpty(name)) {
+        if (name == null) {
             throw new IllegalArgumentException("Book requires a name.");
         }
 
@@ -132,7 +132,7 @@ public class BookProvider extends ContentProvider {
 
         // Check that the supplier name is not null
         String supplierName = values.getAsString(BookEntry.COLUMN_SUPPLIER_NAME);
-        if (TextUtils.isEmpty(supplierName)) {
+        if (supplierName == null) {
             throw new IllegalArgumentException("Supplier requires a name.");
         }
 
