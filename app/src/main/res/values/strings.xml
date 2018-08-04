@@ -16,15 +16,23 @@
     <!-- Toast message in editor when new book has been successfully inserted -->
     <string name="editor_insert_book_successful">Book saved</string>
 
+    <!-- Toast message in editor when new book has failed to be inserted -->
+    <string name="editor_insert_book_failed">Error with saving book</string>
+
     <!-- Toast message in editor when current book has failed to be updated -->
     <string name="editor_update_book_failed">Error with updating book</string>
 
     <!-- Toast message in editor when current book has been successfully updated -->
     <string name="editor_update_book_successful">Book updated</string>
 
-    <!-- Toast message in editor when new book has failed to be inserted -->
-    <string name="editor_insert_book_failed">Error with saving book</string>
+    <!-- Dialog message when user is leaving editor but hasn't saved changes -->
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
 
+    <!-- Dialog button text for the option to discard a user's changes -->
+    <string name="discard">Discard</string>
+
+    <!-- Dialog button text for the option to keep editing the current book -->
+    <string name="keep_editing">Keep Editing</string>
 
     <!-- Label for overview category of attributes in the editor -->
     <string name="category_overview">Overview</string>
