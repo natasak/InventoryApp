@@ -22,6 +22,15 @@
     <!-- Toast message in editor when the user didn't insert a product name -->
     <string name="editor_insert_book_name_failed">You need to insert a product name!</string>
 
+    <!-- Toast message in editor when the user didn't insert a product price -->
+    <string name="editor_insert_book_price_failed">You need to insert a product price!</string>
+
+    <!-- Toast message in editor when the user didn't insert quantity, default 0 -->
+    <string name="editor_insert_quantity_failed">You didn\'t insert quantity, so I set it on 0!</string>
+
+    <!-- Toast message in editor when the user didn't insert supplier name -->
+    <string name="editor_insert_supplier_name_failed">You need to insert supplier name!</string>
+
     <!-- Toast message in editor when current book has failed to be updated -->
     <string name="editor_update_book_failed">Error with updating book</string>
 

@@ -141,11 +141,14 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             return;
         }
 
-        // If the price is not provided by the user, don't try to parse the String into
-        // a float value. Use 0 by default.
-        float price = Float.valueOf(0);
+        // If the price is not provided by the user, display a toast and go back to MainActivity
+        float price;
         if (!TextUtils.isEmpty(priceString)) {
             price = Float.parseFloat(priceString);
+        } else {
+            Toast.makeText(EditorActivity.this, R.string.editor_insert_book_price_failed,
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
         values.put(BookEntry.COLUMN_PRODUCT_PRICE, price);
 
@@ -154,9 +157,21 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         int quantity = 0;
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
+        } else {
+            Toast.makeText(EditorActivity.this, R.string.editor_insert_quantity_failed,
+                    Toast.LENGTH_SHORT).show();
         }
         values.put(BookEntry.COLUMN_QUANTITY, quantity);
+
         values.put(BookEntry.COLUMN_SUPPLIER_NAME, supplierNameString);
+
+        // If the supplier name is not provided by the user, display a toast and go back to MainActivity
+        if (TextUtils.isEmpty(supplierNameString)) {
+            Toast.makeText(EditorActivity.this, R.string.editor_insert_supplier_name_failed,
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         values.put(BookEntry.COLUMN_SUPPLIER_PHONE_NUMBER, supplierPhoneNumberString);
 
         // Determine if this is a new or existing book by checking if mCurrentBookUri is null or not
