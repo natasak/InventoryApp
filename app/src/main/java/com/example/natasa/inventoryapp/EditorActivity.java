@@ -77,6 +77,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         if (mCurrentBookUri == null) {
             //This is new book, so change the app bar to say "Add a book"
             setTitle(getString(R.string.editor_activity_title_new_product));
+
+            // Invalidate the options menu, so the "Delete" menu option can be hidden.
+            invalidateOptionsMenu();
+
         } else {
             // Otherwise this is an existing book, so change app bar to say "Edit book"
             setTitle(getString(R.string.editor_activity_title_edit_product));
@@ -190,6 +194,23 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
         getMenuInflater().inflate(R.menu.menu_editor, menu);
         return true;
     }
+
+    /**
+     * This method is called after invalidateOptionsMenu(), so that the
+     * menu can be updated (some menu items can be hidden or made visible).
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+
+        // If this is a new book, hide the "Delete" menu item.
+        if (mCurrentBookUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
