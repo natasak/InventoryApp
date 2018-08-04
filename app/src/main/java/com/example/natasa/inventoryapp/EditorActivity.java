@@ -81,6 +81,10 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             // Invalidate the options menu, so the "Delete" menu option can be hidden.
             invalidateOptionsMenu();
 
+            // Hide the button ORDER when inserting new book
+            View b = findViewById(R.id.buttonOrder);
+            b.setVisibility(View.GONE);
+
         } else {
             // Otherwise this is an existing book, so change app bar to say "Edit book"
             setTitle(getString(R.string.editor_activity_title_edit_product));

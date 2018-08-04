@@ -70,6 +70,9 @@
     <!-- Text hint for price field in the editor -->
     <string name="hint_product_price">Price</string>
 
+    <!-- Units for price (euro) -->
+    <string name="unit_euro">€</string>
+
     <!-- Label for category quantity in the editor -->
     <string name="category_quantity">Quantity</string>
 
@@ -96,8 +99,17 @@
     <string name="text_book_quantity">Quantity:</string>
     <string name="text_book_quantity_number">5</string>
 
-    <!-- Text for Button -->
+    <!-- Text for Button SALE -->
     <string name="button_text_sale">sale</string>
+
+    <!-- Text for Button "increase" -->
+    <string name="button_text_plus">+</string>
+
+    <!-- Text for Button "decrease" -->
+    <string name="button_text_minus">-</string>
+
+    <!-- Text for Button ORDER -->
+    <string name="button_text_order">order\nbook</string>
 
     <!-- Title text for the empty view -->
     <string name="empty_view_title_text">It\'s a bit lonely here...</string>

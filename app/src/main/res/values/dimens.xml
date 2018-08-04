@@ -11,5 +11,11 @@
     <dimen name="size1">1</dimen>
     <dimen name="size16dp">16dp</dimen>
     <dimen name="size8dp">8dp</dimen>
+    <dimen name="size4dp">4dp</dimen>
+    <dimen name="size28dp">28dp</dimen>
+    <dimen name="size48dp">48dp</dimen>
+
+    <!-- Text sizes for buttons + and - -->
+    <dimen name="text_size24sp">24sp</dimen>
 
 </resources>

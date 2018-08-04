@@ -63,8 +63,6 @@
         android:layout_alignParentRight="true"
         android:text="@string/button_text_sale"
         android:textColor="@color/colorButtonWhite"
-        android:focusable="false"
-        android:onClick="buttonSaleClicked"/>
-
+        android:focusable="false" />
 
 </RelativeLayout>
