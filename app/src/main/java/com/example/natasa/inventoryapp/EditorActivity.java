@@ -177,7 +177,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             @Override
             public void onClick(View view) {
                 Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", supplierPhoneNumber, null));
-                startActivity(phoneIntent);
+                if (phoneIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(phoneIntent);
+                }
             }
         });
     }
@@ -288,6 +290,9 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
                         Toast.LENGTH_SHORT).show();
             }
         }
+
+        // Exit activity
+        finish();
     }
 
     @Override
@@ -322,8 +327,6 @@ public class EditorActivity extends AppCompatActivity implements LoaderManager.L
             case R.id.action_save:
                 // Save book to database
                 saveBook();
-                // Exit activity
-                finish();
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

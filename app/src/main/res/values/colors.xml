@@ -19,4 +19,7 @@
 
     <!-- Text color for Book Price and Quantity -->
     <color name="textColorPrice">#757575</color>
+
+    <!-- Subtxt color for Empty View -->
+    <color name="textEmptyView">#A2AAB0</color>
 </resources>

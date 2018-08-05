@@ -45,6 +45,7 @@
                     android:id="@+id/edit_product_price"
                     android:hint="@string/hint_product_price"
                     android:inputType="numberDecimal"
+                    android:maxLength="5"
                     style="@style/EditorFieldStyle" />
 
                 <!-- Units for price -->
@@ -90,7 +91,8 @@
                 android:hint="@string/hint_quantity"
                 android:gravity="center"
                 android:paddingBottom="@dimen/size28dp"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="5"/>
 
             <Button
                 android:id="@+id/buttonPlus"
